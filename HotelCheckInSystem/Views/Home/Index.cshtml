@@ -1,8 +1,34 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    @model HotelCheckInSystem.Models.User;
+    ViewData["Title"] = "Login";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>@ViewData["Title"]</h1>
+
+
+@using (Html.BeginForm())
+{
+    <div>
+        <div>
+            <label>User Name</label>
+            @Html.EditorFor(model => model.UserName) *
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+        <div>
+            <label>Password</label>
+            @Html.EditorFor(model => model.Password) *
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+        <div>
+            @if (@ViewBag.NotValidUser != null)
+            {
+
+                <label> @ViewBag.NotValidUser</label>
+            }
+        </div>
+        <div>
+            <input type="submit" value="Login" />
+        </div>
+    </div>
+}
