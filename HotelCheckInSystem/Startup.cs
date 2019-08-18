@@ -34,6 +34,8 @@ namespace HotelCheckInSystem
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSession();
+            services.AddDistributedMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,12 +55,27 @@ namespace HotelCheckInSystem
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=index}/{id?}");
+                routes.MapRoute(
+                    name: "Manager",
+                    template: "{controller=Manager}/{action}/{id?}");
+                routes.MapRoute(
+                    name: "Maintenance",
+                    template: "{controller=Maintenance}/{action}/{id?}");
+                routes.MapRoute(
+                    name: "HouseKeeping",
+                    template: "{controller=HouseKeeping}/{action}/{id?}");
+                routes.MapRoute(
+                    name: "FrontDesk",
+                    template: "{controller=FrontDesk}/{action}/{id?}");
+
+
             });
         }
     }

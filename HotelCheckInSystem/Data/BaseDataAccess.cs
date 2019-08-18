@@ -11,7 +11,7 @@ namespace HotelCheckInSystem.Data
     {
         protected string ConnectionString { get; set; }
 
-        public BaseDataAccess():this(string.Empty)
+        protected BaseDataAccess():this(string.Empty)
         {
         }
         public BaseDataAccess(string connectionString)

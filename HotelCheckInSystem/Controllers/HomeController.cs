@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using HotelCheckInSystem.Models;
 using HotelCheckInSystem.Data;
+using HotelCheckInSystem.Types;
 using System.Data.SqlClient;
+
 namespace HotelCheckInSystem.Controllers
 {
     public class HomeController : Controller
@@ -29,7 +31,29 @@ namespace HotelCheckInSystem.Controllers
             
             if (ModelState.IsValid)
             {
-                
+                using(HotelCheckInDataAccess dataAccess = new HotelCheckInDataAccess(_connectionstring))
+                {
+                    User validUser = dataAccess.GetUser(user.UserName, user.Password);
+                    if (validUser.IsActive )
+                    {
+                        
+                        switch (validUser.Role.Id)
+                        {
+                            case RoleType.Manager:
+                                return RedirectToAction("Index", "Manager");
+                            case RoleType.Maintenance:
+                                return RedirectToAction("Index", "Maintenance");
+                            case RoleType.HouseKeeping:
+                                return RedirectToAction("Index", "HouseKeeping");
+                            case RoleType.FrontDesk:
+                                return RedirectToAction("Index", "FrontDesk");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.NotValidUser = "Invalid Username/Password";
+                    }
+                }
 
             }
 
